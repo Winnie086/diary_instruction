@@ -2,18 +2,19 @@
 include_once "header.php";
 ?>
 
-
-
 <?php
 // 編輯會員資料
 $dsn="mysql:host=localhost;dbname=member;charset=utf8";
 $pdo=new PDO($dsn,'root','');
+
+
 $user_id=$_GET['id']; 
 $user_sql="select * from `login`,`member` where `login`.`id`=`member`.`login_id` && `login`.`id`='$user_id'";
 $user=$pdo->query($user_sql)->fetch();
 ?>
 
 
+<div class="container">
 
 <h2>編輯資料</h2>
     <form action="save_user.php" method="post" class="col-md-6">

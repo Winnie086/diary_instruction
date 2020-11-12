@@ -1,5 +1,4 @@
 <?php
-
 $title="管理中心";
 include_once('header.php');
 ?>
@@ -7,9 +6,26 @@ include_once('header.php');
 <body>
 <h1 class="text-center">管理中心</h1>
 
+<div class="col-8 mx d-flex justify-content-between">
+<span>
 <?php
+ session_start();
+if(isset($_SESSION['login'])){
+    echo $_SESSION['login']."歡迎";
+}
+?>
+</span>
+
+<span>
+<a href="logout.php">登出</a>
+</span>
+</div>
+
+<?php
+
 $dsn="mysql:host=localhost;dbname=member;charset=utf8";
 $pdo=new PDO($dsn, 'root','');
+
 
 $sql="select 
 `login`.`id`,
@@ -26,10 +42,9 @@ from
 
 where
 `login`.`id`=`member`.`login_id`";
-
 $users=$pdo->query($sql)->fetchALL();
 
-echo "<table class='table'>";
+echo "<table class='table col-8 mx-auto'>";
 echo "<tr>";
 echo "<td>流水號</td>";
 echo "<td>帳號</td>";
@@ -52,22 +67,21 @@ foreach($users as $user){
         echo "<td>{$user['email']}</td>";
         echo "<td>{$user['addr']}</td>";
         echo "<td>{$user['creat_time']}</td>";
-        echo "<td><a href='edit_user.php?id={$user['id']}'><button class='button btn-sucess'>編輯</button></a></td>";
-    echo "</tr>";
+        echo "<td>";
+        echo "<a href='edit_user.php?id={$user['id']}'><button class='btn btn-sm btn-sucess'>編輯</button></a>";
+        echo "<a href='del_user.php?id={$user['id']}'><button class='btn btn-sm btn-danger'>刪除</button></a>";
+    
+        echo "</td>";    
+     echo "</tr>";
 }
 
 
-
-
-
-
-
-
-
-
-
-
+echo "</table>"
 ?>
 
 
 </body>
+
+<?php
+include_once('footer.php');
+?>

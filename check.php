@@ -9,7 +9,7 @@
  */
 
 $dsn="mysql:host=localhost;dbname=member;charset=utf8";
-$pdo= new PDO($dsn, 'root', '');
+$pdo=new PDO($dsn,'root', '');
 
 $acc=$_POST['acc'];
 $pw=$_POST['pw'];
@@ -31,11 +31,15 @@ $check=$pdo->query($sql)->fetch();
 if(!empty($check)){
   echo "登入成功";
   
+  
   // 取得會員個人資料
   $member_sql="select * from member where login_id='{$check['id']}'";
   $member=$pdo->query($member_sql)->fetch();
   $role=$member['role'];
+  session_start();
   
+  $_SESSION['login']=$acc;
+
   switch($role){
     case '會員':
     header('location:mem.php');

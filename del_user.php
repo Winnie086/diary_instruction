@@ -1,19 +1,18 @@
 <?php
-
+$title="刪除使用者";
 include "header.php";
-
-
-
 
 $dsn="mysql:host=localhost;dbname=member;charset=utf8";
 $pdo=new PDO($dsn,'root','')
+
+
+
 
 $user_id=$_GET['id'];
 $sqll="delete from `login` where `id`='$user_id'";
 $sql2="delete from `member` where `login_id`='$user_id'";
 
 
-$ask=false;
 echo "確定要刪除id=".$user_id."的資料嗎?";
 ?>
 
@@ -24,9 +23,7 @@ echo "確定要刪除id=".$user_id."的資料嗎?";
 
 <?php
 
-if(isset($ask)){
-  if($_GET['ask']){
-
+if(isset($_GET['ask'])){
     switch($_GET['ask']){
       case 'true':
         $pdo->exec($sqll);
@@ -34,20 +31,15 @@ if(isset($ask)){
         header("location:admin.php");
       break;
       case 'false':
-      
-
+        header("location:admin.php");
+      break;
         
     }
 
-   
 
   }
   
-  header("location:admin.php");
 
-}
-
-
-
+include "footer.php";
 
 ?>
