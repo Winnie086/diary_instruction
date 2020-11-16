@@ -14,6 +14,7 @@ $pdo=new PDO($dsn,'root', '');
 $acc=$_POST['acc'];
 $pw=$_POST['pw'];
 
+// 執行SQL語法並取得資料
 $sql="select * from `login` where `acc`='$acc' && `pw`='$pw'";
 echo $sql;
 $check=$pdo->query($sql)->fetch();
@@ -28,20 +29,20 @@ $check=$pdo->query($sql)->fetch();
 // }else{
 //   echo "帳密錯誤";
 // }
+
+// 判斷回傳值是否為空
 if(!empty($check)){
   echo "登入成功";
-  
+  $sendtcookies;
   
   // 取得會員個人資料
   $member_sql="select * from member where login_id='{$check['id']}'";
   $member=$pdo->query($member_sql)->fetch();
   $role=$member['role'];
-  session_start();
-  
-  $_SESSION['login']=$acc;
+  setcookie("login",$acc,time()+3600);
 
   switch($role){
-    case '會員':
+    case '一般會員':
     header('location:mem.php');
     break;
   
@@ -52,7 +53,6 @@ if(!empty($check)){
     case '管理員':
     header('location:admin.php');
     break;
-
   }
 
 }else{

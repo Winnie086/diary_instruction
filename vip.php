@@ -3,17 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>白金會員中心</title>
+    <title>VIP</title>
 </head>
 <body>
-<h1>白金會員中心</h1>
-尊爵的
+<h1>VIP</h1>
 <?php
- session_start();
-if(isset($_SESSION['login'])){
-    echo $_SESSION['login']."歡迎";
+ if(isset($_COOKIE['login'])){
+    echo "尊爵的".$_COOKIE['login']."歡迎您";
 }
 ?>
-你好，歡迎你
 </body>
 </html>

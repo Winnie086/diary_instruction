@@ -1,20 +1,24 @@
 <body>
   <?php
     include_once('header.php');
-    session_start();
-    if(isset($_SESSION['login'])){
+    if(isset($_COOKIE['login'])){
       $dsn="mysql:host=localhost;dbname=member;charset=utf8";
       $pdo=new PDO($dsn, 'root','');
 
-      $sql_user="select `member` .`rol`,`login`.`acc` from `member`.`login_id`=`login`.`id` where acc='{$_COOKIE['login']}'";
-      echo $sql_user;
+      $sql_user="select `member`.`rol`,`login`.`acc` from `member`,`login` where `login_id`=`login`.`id` && acc='{$_COOKIE['login']}'";
+      echo $sql_user."<br>";
       $user=$pdo->query($sql_user)->fetch(PDO::FETCH_ASSOC);
+
       echo "<pre>";
       print_r($user);
       echo "</pre>";
 
-      switch($role){
-        case '會員':
+      exit();
+
+      switch($user){
+        // switch($role)
+        
+        case '一般會員':
         header('location:mem.php');
         break;
       
@@ -32,7 +36,13 @@
   <body>
   <div class="container mt-5">
     <div class="col-6 border bg-light m-auto" style="height:300px;box-shadow:1px 1px 10px #185761">
-      <div class="text-center"><?php if(isset($_GET['meg'])){ echo $_GET['meg'] ;} ?></div>
+      <div class="text-center">
+      <?php
+      if(isset($_GET['meg'])){
+      echo $_GET['meg'] ;}
+      ?>
+      </div>
+
       <h5 class="text-center py-3 border-bottom">會員登入</h5>
       <form action="check.php" class="mt-3 col-6 mx-auto" method="post">
         <p class="text-center">帳號：<input type="text" name="acc"></p>
@@ -47,5 +57,5 @@
   </div>
   </body>
   <?php
-    include_once('footer.php');
+    include_once("footer.php");
   ?>
